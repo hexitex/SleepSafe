@@ -1,0 +1,208 @@
+<% include ../partials/header %>
+    <div class="mt-4">
+        <div class="col-md-8 mt-3">
+            <h5>Edit: <u><%=site.name%></u></h5>
+        </div>
+            
+        <div class="col-md-12 col-sm-12">
+            
+            <form action="/sites/<%=site._id%>?_method=PUT" method="post">
+                
+            <div class="form-group">
+                <lable for="name">Name</lable>
+                <input class="form-control" type="text" id="name" value="<%=site.name%>" name="site[name]" placeholder="Describe the place as best you can, is it a hostel, hotel, park, underpass, or doorway!" required>
+            </div>
+            <div class="form-group">
+                 <label for="category">Category</label> 
+                <select class="form-control" id="category" name="site[category]">
+                     <option value="">Select Category</option>    
+                    <%if (cats) {cats.forEach(function (cat){%>
+                    <option value='<%=cat._id%>' <%=''+cat._id===''+site.category ? ' selected':''%>><%=cat.name%></option>    
+                    <% });}%>
+                </select>
+            </div>
+            <div class="form-group">
+                 <label for="country">Country</label>
+                 <select class="form-control" id="country" name="site[country]">
+                    <option value="">Select Country Applicable for Link</option>  
+                    <%if (cnts) {cnts.forEach(function (cout){%>
+                    <option value='<%=cout._id%>' <%=''+site.country===''+cout._id ? ' selected':''%>><%=cout.name%></option>    
+                    <% });}%>
+                </select>
+            </div>
+           <div class="table-responsive">
+                 <table id="image-table" class="table">
+                    <thead><tr><th>Main Image</th><th colspan="5">Additional Images</th></tr></thead>
+                    <tbody>
+                    <tr>
+                        <td><button bn="0" id="bn0" style="background:url('<%=site.imageThumbnail%>')" class="upload-button bn" type="button">Main</button></td>
+                        <% var si=site.moreImagesThumbnails.length; for(var i=0;i<si;i++){%>
+                        <td><button bn="<%=i+1%>" id="bn<%=i+1%>" style="background:url('<%=site.moreImagesThumbnails[i]%>')" class="upload-button bn" type="button">Addit.<%=i+1%></button></td>
+                        <% } %>
+                        <%for(var i=si+1;i<=maxAdditionalImages;i++){%>
+                        <td><button bn="<%=i%>" id="bn<%=i%>" class="upload-button bn" type="button">Addit.<%=i%></button></td>
+                        <% } %>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+           
+            <div class="form-group">
+                <lable for="price">Price</lable>
+                <input class="form-control" type="text" id ="price" value="<%=site.price%>" name="site[price]" placeholder="Price $ £.. Free">
+            </div>
+            <div class="form-group">
+                <lable for="description">Description</lable>
+                <textarea class="form-control" cols="25" rows="3" id="description" name="site[description]" placeholder="Description" required><%=site.description%></textarea>
+            </div>
+            
+            <div class="form-group">
+                <lable for="location">Location (Remove Text to update from map)</lable>
+                <input class="form-control" type="text" id="location" name="site[location]" value="<%=site.location%>" placeholder="Locaton - type a post code, city or place name to search Google maps" required>
+            </div> 
+             <div id="map"></div>
+             <br/>
+        </div>
+        
+        <div class="col-md-12 col-sm-12 my-4">
+	<div id="ac1 ">
+	<div class="card">
+	<div class="card-header" id="hed1">
+	<h5 class="mb-0">
+	<i class="btn btn-link" data-toggle="collapse" data-target="#cl1" aria-expanded="false" aria-controls="cl1">
+	Referal and Link Information..
+	</i>
+	</h5>
+	</div>
+
+	<div id="cl1" class="collapse hide" aria-labelledby="hed1" data-parent="#ac1">
+	<div class="card-body">
+            <div class="form-group">
+                <lable for="link">Link (Starts with http:// or https://)</lable>
+                <input class="form-control" type="text" id ="link" name="site[link]" value="<%=site.link%>" placeholder="Link for more information">
+            </div>
+            <div class="form-group">
+                <lable for="link">Referal Telephone Number</lable>
+                <input class="form-control" type="text" id ="referalTel" name="site[referalTel]" value="<%=site.referalTel%>" placeholder="Referal Telephone Number">
+            </div>
+            <div class="form-group">
+                <lable for="link">Referal Email Address</lable>
+                <input class="form-control" type="text" id ="referalEmail" name="site[referalEmail]" value="<%=site.referalEmail%>" placeholder="Referal Email Address">
+            </div>
+	</div>
+	</div>
+	</div>
+	</div>
+	<div id="ac2 mt-4">
+	<div class="card mt-4">
+	<div class="card-header" id="hed2">
+	<h5 class="mb-0">
+	<i class="btn btn-link" data-toggle="collapse" data-target="#cl2" aria-expanded="false" aria-controls="cl2">
+	Facilities..
+	</i>
+	</h5>
+	</div>
+
+	<div id="cl2" class="collapse hide" aria-labelledby="hed2" data-parent="#ac2">
+	<div class="card-body">
+            
+            <div class="form-group mt-4">
+              <lable  for="water"><i class="fas fa-tint bigger"></i> Water</lable>
+                <select class="form-control" id ="water" name="site[water]">
+                    <option value="" <%= site.water === '' ? 'selected' : '' %>>Is There Drinking Water?</option>
+                    <option value="true"  <%= site.water === 'true' ? 'selected' : '' %>>Yes, drinking water here</option>
+                    <option value="false"  <%= site.water === 'false' ? 'selected' : '' %>>No drinking water here</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <lable for="shelter"><i class="fas fa-store bigger"></i> Sheltered</lable>
+                <select class="form-control" id ="shelter" name="site[shelter]">
+                    <option value="" <%= site.shelter === '' ? 'selected' : '' %>>Is It Sheltered Here During Wet Weather?</option>
+                    <option value="true" <%= site.shelter === 'true' ? 'selected' : '' %>>Yes, there is shelter</option>
+                    <option value="false" <%= site.shelter === 'false' ? 'selected' : '' %>>No shelter here</option>
+                </select>
+            </div>
+             
+            <div class="form-group">
+                  <lable  for="warm"><i class="fab fa-gripfire bigger"></i> Warm</lable>
+                <select class="form-control" id ="warm" name="site[warm]">
+                    <option value="" <%= site.warm === '' ? 'selected' : '' %>>Is It Warm During Cold Weather?</option>
+                    <option value="true" <%= site.warm === 'true' ? 'selected' : '' %>>Yes, it is warm here</option>
+                    <option value="false" <%= site.warm === 'false' ? 'selected' : '' %>>No it is cold</option>
+                </select>
+            </div>
+             
+            <div class="form-group">
+              <lable for="charging"><i class="fas fa-battery-three-quarters bigger"></i> Power</lable>
+                <select class="form-control" id ="charging" name="site[charging]">
+                    <option value="" <%= site.charging === '' ? 'selected' : '' %>>Are There Charging Points Here?</option>
+                    <option value="true" <%= site.charging === 'true' ? 'selected' : '' %>>Yes, charging points here</option>
+                    <option value="false" <%= site.charging === 'false' ? 'selected' : '' %>>No charging points here</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                 <lable for="food"><i class="fas fa-utensils bigger"></i> Food</lable>
+                <select class="form-control" id ="food" name="site[food]">
+                    <option value="" <%= site.food === '' ? 'selected' : '' %>>Is There Food Available Here?</option>
+                    <option value="purchase" <%= site.food === 'purchase' ? 'selected' : '' %>>Yes, food can be purchased here</option>
+                    <option value="donated" <%= site.food === 'donated' ? 'selected' : '' %>>Yes, food is donated here</option>
+                    <option value="false" <%= site.food === 'false' ? 'selected' : '' %>>No food here</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                    <lable for="wash"><i class="fas fa-bath bigger"></i> Washing</lable>
+                <select class="form-control" id ="wash" name="site[wash]">
+                    <option value="" <%= site.wash === '' ? 'selected' : '' %>>Are There Washing Facilities Available Here?</option>
+                    <option value="true" <%= site.wash === 'true' ? 'selected' : '' %>>Yes, there is washing facilities</option>
+                    <option value="false" <%= site.wash === 'false' ? 'selected' : '' %>>No falcilities here</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                 <lable for="dog"><i class="fas fa-paw bigger"></i> Dog Friendly</lable>
+                <select class="form-control" id ="dog" name="site[dog]">
+                    <option value="" <%= site.dog === '' ? 'selected' : '' %>>Is It Okay To Bring Dogs Here?</option>
+                    <option value="true" <%= site.dog === 'true' ? 'selected' : '' %>>Yes, dogs are allowed</option>
+                    <option value="false" <%= site.dog === 'false' ? 'selected' : '' %>>No dogs allowed</option>
+                </select>
+            </div>
+            
+	</div>
+	</div>
+	</div>
+	</div>
+
+            <div class="form-group mt-4">
+                <label for="rating">Rating</label>
+                <input id="rating" name="site[rating]" type="hidden" value="<%=site.rating%>" >
+                    <%-stars%>
+            </div>
+
+            <div class="form-group">
+                <br/>
+                <button class="btn btn-lg btn-primary btn-block">Submit</button>
+            </div>
+        </div>
+        
+        <input type="hidden" value="<%=site.lat%>" name="site[lat]" id="lat">
+        <input type="hidden" value="<%=site.lng%>" name="site[lng]" id="lng">
+        <input type="hidden" id="image0" value="<%=site.image%>" name="site[image]">
+        <input type="hidden" id="imageThumbnail0" value="<%=site.imageThumbnail%>" name="site[imageThumbnail]">
+        <% var hsi=site.moreImages.length;site.moreImages.forEach(function (img,i){%>
+        <input type="hidden" id="image<%=i+1%>" value="<%=img%>" name="addImage[<%=i+1%>]">
+        <input type="hidden" id="imageThumbnail<%=i+1%>" value="<%=site.moreImagesThumbnails[i]%>" name="addImageThumbnail[<%=i+1%>]">
+        <% }); %>
+        <%for(var i=hsi+1;i<=maxAdditionalImages;i++){%>
+        <input type="hidden" id="image<%=i%>" value="" name="addImage[<%=i%>]">
+        <input type="hidden" id="imageThumbnail<%=i%>" value="" name="addImageThumbnail[<%=i%>]">
+        <% } %>
+        
+        </form>
+        
+    </div>
+<% include ../partials/footer %>
+    <% include ../partials/site-edit-add-js %>   
+

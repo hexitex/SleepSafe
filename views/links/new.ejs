@@ -1,0 +1,67 @@
+<% include ../partials/header %>
+
+<div class="row">
+
+    <div class="link-form-style mt-4">
+        <h5 style="text-align: center">New Link</h5>
+        <form action="/links/" method="post" id="mainform">
+            <div class="form-group">
+                <label for="link">Link (starts with HTTP:// or HTTPS://)</label>
+                <input class="form-control" type="text" id="link" name="link[link]" value>
+            </div>
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input class="form-control" type="text" id="name" name="link[name]" value placeholder="Link Name"
+                    required>
+            </div>
+
+            <div class="form-group">
+                <label for="edit">Description</label>
+                <!-- <textarea rows="4" class="form-control" name="link[description]" id="description" placeholder="Describe what the site offers"></textarea> -->
+                <div id="summernote"></div>
+                <input type="hidden" id="description" name="link[description]">
+            </div>
+            <div class="form-group">
+                <label for="category">Category</label>
+                <select class="form-control" id="category" name="link[category]">
+                    <option value>Select Category</option>
+                    <%if (categories) {categories.forEach(function (cat){%>
+                    <option value='<%=cat._id%>'>
+                        <%=cat.name%>
+                    </option>
+                    <% })} %>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="country">Country</label>
+                <select class="form-control" id="country" name="link[country]">
+                    <option value>Select Country Applicable for Link</option>
+                    <%countries.forEach(function (cout){%>
+                    <option value='<%=cout._id%>'>
+                        <%=cout.name%>
+                    </option>
+                    <% }) %>
+                </select>
+            </div>
+            <div class="form-group">
+                <button class="btn btn-lg btn-primary btn-block">Add Link</button>
+            </div>
+        </form>
+        <a href="/links">Go Back</a>
+    </div>
+</div>
+
+
+<script>
+    $('#summernote').summernote();
+
+    var form = document.querySelector('#mainform');
+    form.onsubmit = function () {
+        // Populate hidden field on submit
+        $('#description').val($('#summernote').summernote('code'));
+        form.submit();
+    };
+
+    function initNext() {}
+</script>
+<% include ../partials/footer %>

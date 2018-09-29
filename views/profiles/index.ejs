@@ -1,0 +1,93 @@
+<% include ../partials/header %>
+<script src="/assets/js/stacktable.js"></script>
+    <div class="row">
+        <div class="col-lg-12">
+            <%if(users && users.length>0){%>
+            <h3 class="pull-right my-3">Maintain Users</h3>
+            <% } else{ %>
+            <h3>No Users Found</3>
+            <% } %>
+        </div>
+    </div>
+     <div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+        <form action="/profiles" method="get">
+            <div class="input-group">
+                <input type="text" name="search" id="search" class="form-control" placeholder="Search For User">
+                <span class="input-group-btn"><button class="btn btn-default" type="submit">Go</button></span>
+            </div>
+            </form>
+            
+            <table class="table" id="profile-table">
+            <thead>
+                <tr>
+                    <th scope="col">User</th>
+                    <th scope="col">Display Name</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Comments</th>
+                    <th scope="col">Spaces</th>
+                    <th scope="col">Links</th>
+                    <th scope="col">Disabled</th>
+                    <th scope="col">Role</th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+            
+                <% users.forEach(function(user,i){ %>
+                        <tr <%-user.disabled===false ? '':'class="disabled-back"'%>>
+                            <th scope="row">
+                                <a href="/profiles/<%=user._id%>/edit"> <img class="rounded-circle" src="<%= user.avatar %>"> 
+                               <%= user.username %>
+                                </a>
+                            </th>
+                            <td><%= user.showName %></td>
+                            <td><%= user.email %></td>
+                            <td><%= user.commentsMade.length %></td>
+                            <td><%= user.sitesSubmitted.length %></td>
+                            <td><%= user.linksSubmitted.length %></td>
+                            <td><%= user.disabled %></td>
+                            <td><%- user.role===2 ? '<a href="#"  data-toggle="tooltip" onclick="demoteUser(\''+user._id+'\')" class="btn btn-success far fa-hand-point-down pr-1 pl-1" title="Demote to Moderator"></a> Admin': user.role===1 ? '<span pt-0 pb-0><a  data-toggle="tooltip" href="#" onclick="demoteUser(\''+user._id+'\')" title="Demote to User" class="btn btn-success far fa-hand-point-down pr-1 pl-1"></a> <a href="#"  data-toggle="tooltip" onclick="upgradeUser(\''+user._id+'\')" title="Upgrade User to Admin" class="btn btn-danger far fa-hand-point-up pr-1 pl-1"></a> Mod.</span>' : ' <a href="#"  data-toggle="tooltip" onclick="upgradeUser(\''+user._id+'\')" title="Upgrade User to Moderator" class="btn btn-warning far fa-hand-point-up pr-1 pl-1"></a> User ' %></td>
+                            <th scope="row">
+                                <a href="/profiles/<%=user._id%>/edit" class="far fa-edit light-text"> 
+                                </a></th>
+                            <th scope="row" >
+                                <a title="<%=user.disabled===false ? 'Disable': 'Enable'%>" data-toggle='tooltip' class="btn <%=user.disabled===false ? 'btn-danger far fa-thumbs-down':'btn-warning far fa-thumbs-up'%>" 
+                                onclick="bbConfirm('Are you sure you want to change the status of this user?','/profiles/<%=user._id%>/<%=user.disabled===false ? 'disable' : 'enable'%>?_method=put','POST')">
+                               
+                                </a>
+                            </th>
+                        </tr>
+                 <% }); %>
+                </tbody>
+            </table>
+            </div>
+        </div>
+    </div>
+    
+<div class="justify-content-center mt-4">
+   <%-pagnation%>
+</div>
+<form id="doSomething" action="" method=""></form>
+     
+     <script>
+     function initNext(){
+    
+     $(function () {$('[data-toggle="tooltip"]').tooltip()});
+      $('#profile-table').stacktable();
+     }
+     function demoteUser(userid)
+     {
+        bbConfirm('Are you sure you want to demote this user?','/profiles/'+userid+'/demoteuser?_method=put','post');
+     }
+     
+     function upgradeUser(userid)
+     {
+        bbConfirm('Are you sure you want to upgrade this user?','/profiles/'+userid+'/upgradeuser?_method=put','post');
+     }
+     
+     </script>
+<% include ../partials/footer %>

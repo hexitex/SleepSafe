@@ -1,0 +1,62 @@
+<% include ../partials/header %>
+<div class="row">
+   
+    <div class="link-form-style mt-4">
+        <h5 style="text-align: center">Edit <%=link.name%></h5>
+        <form action="/links/<%=link._id%>?_method=PUT" method="post" id="mainform">
+            <div class="form-group">
+                <label for="link">Link URL (starts with HTTP:// or HTTPS://)</label>
+                <input class="form-control" type="text" id="link" name="link[link]" value="<%=link.link%>">
+            </div>
+            <div class="form-group">
+                 <label for="name">Name</label>
+                <input class="form-control" type="text" id="name" name="link[name]" value="<%=link.name%>"placeholder="Link Name" required>
+            </div>
+            <!-- <div class="form-group">
+                <label for="description">Description</label>
+                <textarea rows="4" class="form-control" name="link[description]" id="description" placeholder="Describe what the site offers"><%=link.description%></textarea>
+            </div> -->
+            <div class="form-group">
+                    <label for="edit">Description</label>
+                    <!-- <textarea rows="4" class="form-control" name="link[description]" id="description" placeholder="Describe what the site offers"></textarea> -->
+                   <div id="summernote"><%-link.description%></div>
+                    <input type="hidden" id="description" name="link[description]">
+                </div>
+            <div class="form-group">
+                 <label for="category">Category</label> 
+                <select class="form-control" id="category" name="link[category]">
+                     <option value="">Select Category</option>    
+                    <%if (categories) {categories.forEach(function (cat){%>
+                    <option value='<%=cat._id%>' <%=''+cat._id===''+link.category ? ' selected':''%>><%=cat.name%></option>    
+                    <% });}%>
+                </select>
+            </div>
+            <div class="form-group">
+                 <label for="country">Country</label>
+                 <select class="form-control" id="country" name="link[country]">
+                    <option value="">Select Country Applicable for Link</option>  
+                    <%if (countries) {countries.forEach(function (cout){%>
+                    <option value='<%=cout._id%>' <%=''+link.country===''+cout._id ? ' selected':''%>><%=cout.name%></option>    
+                    <% });}%>
+                </select>
+            </div>
+            <div class="form-group">
+                <button class="btn btn-lg btn-primary btn-block">Apply Changes</button>
+            </div>
+        </form>
+        <a href="/links">Go Back</a>
+    </div>
+</div>
+
+<script>
+        $('#summernote').summernote();
+         
+        var form = document.querySelector('#mainform');
+        form.onsubmit = function() {
+          // Populate hidden field on submit
+          $('#description').val($('#summernote').summernote('code'));
+          form.submit();
+        };     
+        function initNext(){}   
+        </script>
+<% include ../partials/footer %>

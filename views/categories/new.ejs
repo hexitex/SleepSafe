@@ -1,0 +1,29 @@
+<% include ../partials/header %>
+    <div class="form-style mt-4">
+         <h5>Add Category</h5>
+        <form action="/categories/" method="post">
+            <div class="form-group">
+                 <label for="name">Category Name</label>
+                <input class="form-control" type="text" id="name" name="cat[name]" placeholder="Category Name" required>
+            </div>
+            <div class="form-group">
+                <label for="usedFor">Category is used for</label>
+                <select class="form-control select" name="cat[usedFor]" id="usedFor">
+                    <option value="Any" >Any</option>
+                    <option value="Links" >Links</option>
+                    <option value="Sites" >Sites</option>
+                </select>
+            </div>
+            <div class="form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" type="checkbox" name="cat[disabled]" value="true">
+                    Disabled
+                </label>
+            </div>
+            <div class="form-group">
+                <button class="btn btn-lg btn-primary btn-block">Apply Changes</button>
+            </div>
+        </form>
+        <a href="/categories">Go Back</a>
+    </div>
+<% include ../partials/footer %>

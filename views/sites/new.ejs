@@ -1,0 +1,215 @@
+<% include ../partials/header %>
+
+    <div class="row mt-4">
+        <div class="col-lg-12"><h3>New Sleep Safe Place </h3>
+            <div class="alert alert-info">
+                <p>Sleeping on the streets can be dangerous! <span data-toggle="collapse" data-target="#info">Read more</span></p>
+                <div id="info" class="collapse">If you have no option but to sleep on the streets, you should:<br/>
+                    <ul>
+                        <li>Try to find somewhere sheltered</li>
+                        <li>Protect yourself against the cold by having a sleeping bag and/or blankets</li>
+                        <li>Avoid sleeping directly on the ground, for example, by putting cardboard or blankets down first.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="">
+        <div class="col-md-12 col-sm-12">
+            
+            <form action="/sites" method="post">
+                
+            <div class="form-group">
+                <lable for="name">Name</lable>
+                <input class="form-control" type="text" id="name" name="site[name]" placeholder="Describe the place as best you can, is it a hostel, hotel, park, underpass, or doorway!" required>
+            </div>
+              <div class="form-group">
+                 <label for="category">Category</label> 
+                <select class="form-control" id="category" name="site[category]">
+                     <option value="">Select Category</option>    
+                    <%if (cats) {cats.forEach(function (cat){%>
+                    <option value='<%=cat._id%>'><%=cat.name%></option>    
+                    <% });}%>
+                </select>
+            </div>
+            <div class="form-group">
+                 <label for="country">Country</label>
+                 <select class="form-control" id="country" name="site[country]">
+                    <option value="">Select Country Applicable for Link</option>  
+                    <%if (cnts) {cnts.forEach(function (cout){%>
+                    <option value='<%=cout._id%>'><%=cout.name%></option>    
+                    <% });}%>
+                </select>
+            </div>
+            <div class="table-responsive">
+                <table id="image-table" class="table ">
+                    <thead><tr><th>Main Image</th><th colspan="5">Additional Images</th></tr></thead>
+                    <tbody>
+                    <tr>
+                        <td><button bn="0" id="bn0" class="upload-button bn" type="button">Main</button></td>
+                        <%for(var i=1;i<=maxAdditionalImages;i++){%>
+                        <td><button bn="<%=i%>" id="bn<%=i%>" class="upload-button bn" type="button">Addit.<%=i%></button></td>
+                        <% } %>
+                    </tr>
+                    </tbody>
+               </table>
+            </div>
+           
+            <div class="form-group">
+                <lable for="price">Price</lable>
+                <input class="form-control" type="text" id ="price" name="site[price]" placeholder="Price $ £.. Free">
+            </div>
+            <div class="form-group">
+                <lable for="description">Description</lable>
+                <textarea class="form-control" cols="25" rows="3" id="description" name="site[description]" placeholder="Description" required></textarea>
+            </div>
+            
+            <div class="form-group">
+                <lable for="location">Location</lable>
+                <input class="form-control" type="text" id="location" name="site[location]" placeholder="Locaton - type a post code, city or place name to search Google maps" required>
+            </div> 
+            
+             <div id="map"></div>
+             <br/>
+        </div>
+        
+        <div class="col-md-12 col-sm-12">
+	<div id="ac1 ">
+	<div class="card">
+	<div class="card-header" id="hed1">
+	<h5 class="mb-0">
+	<i class="btn btn-link" data-toggle="collapse" data-target="#cl1" aria-expanded="false" aria-controls="cl1">
+	Referal and Link Information..
+	</i>
+	</h5>
+	</div>
+
+	<div id="cl1" class="collapse hide" aria-labelledby="hed1" data-parent="#ac1">
+	<div class="card-body">
+            <div class="form-group">
+                <lable for="link">Link (Starts with http:// or https://)</lable>
+                <input class="form-control" type="text" id ="link" name="site[link]" placeholder="Link for more information">
+            </div>
+            <div class="form-group">
+                <lable for="link">Referal Telephone Number</lable>
+                <input class="form-control" type="text" id ="referalTel" name="site[referalTel]" placeholder="Referal Telephone Number">
+            </div>
+            <div class="form-group">
+                <lable for="link">Referal Email Address</lable>
+                <input class="form-control" type="text" id ="referalEmail" name="site[referalEmail]" placeholder="Referal Email Address">
+            </div>
+	</div>
+	</div>
+	</div>
+	</div>
+	<div id="ac2 mt-4">
+	<div class="card mt-4">
+	<div class="card-header" id="hed2">
+	<h5 class="mb-0">
+	<i class="btn btn-link" data-toggle="collapse" data-target="#cl2" aria-expanded="false" aria-controls="cl2">
+	Facilities..
+	</i>
+	</h5>
+	</div>
+
+	<div id="cl2" class="collapse hide" aria-labelledby="hed2" data-parent="#ac2">
+	<div class="card-body">
+            <div class="form-group mt-4">
+                <lable for="water"><i class="fas fa-tint bigger"></i> Water</lable>
+                <select class="form-control" id ="water" name="site[water]">
+                    <option value="">Is There Drinking Water?</option>
+                    <option value="">Unknown if there is drinking water</option>
+                    <option value="true">Yes, there is drinking water</option>
+                    <option value="false">No drinking water here</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <lable for="shelter"><i class="fas fa-store bigger"></i> Sheltered</lable>
+                <select class="form-control" id ="shelter" name="site[shelter]">
+                    <option value="">Is It Sheltered Here During Wet Weather?</option>
+                    <option value="">Unknown shelter here</option>
+                    <option value="true">Yes, shelter here</option>
+                    <option value="false">No shelter here</option>
+                </select>
+            </div>
+             
+            <div class="form-group">
+                <lable  for="warm"><i class="fab fa-gripfire bigger"></i> Warm</lable>
+                <select class="form-control" id ="warm" name="site[warm]">
+                    <option value="">Is It Warm During Cold Weather?</option>
+                    <option value="">Unknown if it is warm here</option>
+                    <option value="true">Yes, it is warm here</option>
+                    <option value="false">No it is cold</option>
+                </select>
+            </div>
+             
+            <div class="form-group">
+                <lable for="charging"><i class="fas fa-battery-three-quarters bigger"></i> Power</lable>
+                <select class="form-control" id ="charging" name="site[charging]">
+                    <option value="">Are There Charging Points Here?</option>
+                    <option value="">Unknown if there is any power</option>
+                    <option value="true">Yes, there are charging points</option>
+                    <option value="false">No charging points here</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <lable for="food"><i class="fas fa-utensils bigger"></i> Food</lable>
+                <select class="form-control" id ="food" name="site[food]">
+                    <option value="">Is There Food Available Here?</option>
+                    <option value="">Unknown if food availble here</option>
+                    <option value="purchase">Yes, food can be purchased here</option>
+                    <option value="donated">Yes, food is donated here</option>
+                    <option value="false">No food here</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                 <lable for="wash"><i class="fas fa-bath bigger"></i> Washing</lable>
+                <select class="form-control" id ="wash" name="site[wash]">
+                    <option value="">Are There Washing Facilities Available Here?</option>
+                    <option value="">Unknown washing facilities here</option>
+                    <option value="true">Yes, washing facilities</option>
+                    <option value="false">No washing falcilities</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <lable for="dog"><i class="fas fa-paw bigger"></i> Dog Friendly</lable>
+                <select class="form-control" id ="dog" name="site[dog]">
+                    <option value="">Is It Okay To Bring Dogs Here?</option>
+                    <option value="">Unknown if dogs are allowed</option>
+                    <option value="true">Yes dogs allowed</option>
+                    <option value="false">No dogs allowed</option>
+                </select>
+            </div>
+	</div>
+	</div>
+	</div>
+	</div>
+            
+            <div class="form-group mt-4">
+                <label for="rating">Rating</label>
+                <input id="rating" name="site[rating]" type="hidden" value="0" >
+            <%-stars%>
+            </div>
+            
+            <div class="form-group">
+            <button class="btn btn-lg btn-primary btn-block">Submit</button>
+            </div>
+        </div>
+        <input type="hidden" value="" name="site[lat]" id="lat">
+        <input type="hidden" value="" name="site[lng]" id="lng">
+        <input type="hidden" id="image0" value="" name="site[image]">
+        <input type="hidden" id="imageThumbnail0" value="" name="site[imageThumbnail]">
+         <%for(var i=1;i<=maxAdditionalImages;i++){%>
+        <input type="hidden" id="image<%=i%>" value="" name="addImage[<%=i%>]">
+        <input type="hidden" id="imageThumbnail<%=i%>" value="" name="addImageThumbnail[<%=i%>]">
+        <% } %>
+    </form>
+        
+    </div>
+   
+<% include ../partials/footer %>
+<% include ../partials/site-edit-add-js %> 

@@ -1,0 +1,38 @@
+{
+  "name": "sleepsafe.space",
+  "version": "1.0.0",
+  "description": "A resource for collecting and showing safe places to sleep for the homeless",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "sleep",
+    "safe"
+  ],
+  "author": "Rob McGlade",
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "cluster": "^0.7.7",
+    "connect-flash": "^0.1.1",
+    "connect-redis": "^3.3.3",
+    "ejs": "^2.6.1",
+    "express": "^4.16.3",
+    "express-session": "^1.15.6",
+    "freetype2": "^0.3.1",
+    "is-image": "^2.0.0",
+    "method-override": "^2.3.10",
+    "moment": "^2.22.1",
+    "mongoose": "^5.1.1",
+    "node-webshot": "^1.0.3",
+    "nodemailer": "^4.6.6",
+    "passport": "^0.4.0",
+    "passport-local": "^1.0.0",
+    "passport-local-mongoose": "^5.0.0",
+    "redis-server": "^1.2.2",
+    "request": "^2.85.0",
+    "sanitize-html": "^1.19.0",
+    "serve-static": "^1.13.2"
+  }
+}

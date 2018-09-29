@@ -1,0 +1,66 @@
+<% include ../partials/header %>
+
+    <header class="jumbotron site-header" id="header">
+        <div class="container">
+            <h2>Welcome to Sleep Safe Space</h2>
+            <h4>Helping homeless people to find safer spaces</h4>
+        </div>
+    </header>
+
+    <div class="row">
+        <div class="col-lg-12">
+            <%if(sites && sites.length>0){%>
+            <h4>Spaces</h4>
+            <% } else{ %>
+            <h3>No Spaces Found</3>
+            <% } %>
+        </div>
+   </div>
+    
+   <div class="row">
+        <div class="card-deck container">
+            <% sites.forEach(function(site,x){ %>
+            <div class="col-sm-6 col-md-4 col-lg-3 pt-3 ">
+                <div class="card pr-0 pl-0 mr-1 ml-1">
+                    <a href="/sites/<%=site._id%>"><img class="card-img-top img-fluid" alt="Card image cap" src="<%= site.image.trim().length>0 ? site.imageThumbnail :  'https://crosstec.org/media/contentbuilder/plugins/image_scale/placeholder.jpg' %>"> </a>
+                    <div class="card-body pl-1 pr-1" >
+                        <h5 class="site-name"><%= site.name %></h5>
+                        <span class="smallIcons">
+                        <%-stars[x]%>
+                        </span>
+                        <span class="smallIcons float-right"><%-icons[x]%></span>
+                    </div>
+                    <div class="card-footer ml-0 mr-0 mb-0">
+                        <p class="card-text"><small class="text-muted"><%=site.location%></small></p>
+                        <small class="text-muted"><p class="card-text"><a class="float-right mt-0" href="/sites/<%=site._id%>"><i>Read more</i></a></p></small>
+                    </div>
+                </div>
+            </div>      
+            <% }); %>
+        </div>
+    </div>
+    
+       <div class="d-flex p-2 justify-content-center">
+       <%-pagnation%>
+    </div>
+     <script> 
+     function initNext(){ $(function () {$('[data-toggle="tooltip"]').tooltip()});  
+      resize_to_fit($('.site-name'));
+     }
+     
+
+function resize_to_fit(inner) {
+  
+    for (var i=0;i<inner.length;i++)
+    { var fontsize=20
+       
+    while(inner[i].offsetHeight > 52) {
+        fontsize = fontsize - 1;
+        inner[i].style.fontSize=fontsize;
+        if(fontsize <= 13)
+        break;
+    }
+    }
+}
+     </script>
+<% include ../partials/footer %>

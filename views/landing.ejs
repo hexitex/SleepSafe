@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, height=device-height, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <title>Sleep Safe Home</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB"
+        crossorigin="anonymous">
+
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T"
+        crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="/assets/css/landing.css">
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js" type="text/javascript" async></script>-->
+</head>
+
+<body>
+    <div>
+        <% if(error && error.length > 0){ %>
+        <div class="alert alert-danger" role="alert">
+            <%= error %>
+        </div>
+        <% } %>
+        <% if(success && success.length > 0 && success.indexOf('have been found')<=0){ %>
+        <div class="alert alert-success" role="alert">
+            <%= success %>
+        </div>
+        <% } %>
+    </div>
+
+
+    <div id="landing-header">
+        <h2>Welcome to Sleep Safe Space</h2>
+        <p>A no nonsense and no back patting site devoted to helping homeless people find safer places to sleep and get by in life</p>
+        <br />
+        <p>If you know of any safe places or useful resources please help by signing up and adding Spaces and Links<p>
+
+                <br />
+
+                <div class="my-4">
+                    <a href="/sites" class="btn btn-lg btn-success mx-2">View Spaces</a> <a href="/links" class="mx-2 btn btn-lg btn-success">View
+                        Links</a>
+                </div>
+                <div class="my-4">
+                    <a class="mx-2 btn btn-lg btn-success" href="https://www.sleepsafe.space/login">Login</a>
+                    <a href="https://www.sleepsafe.space/register" class="mx-2 btn btn-lg btn-warning">Sign-up</a>
+                </div>
+    </div>
+
+    <ul class="slideshow">
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+    </ul>
+    <script>
+        // auto dismiss notifications/flash messages
+        $("#success-alert").fadeTo(3000, 10).slideUp(500, function () {
+            $("#success-alert").slideUp(500);
+        });
+
+        $("#error-alert").fadeTo(5000, 10).slideUp(500, function () {
+            $("#error-alert").slideUp(500);
+        });
+    </script>
+
+
+</body>
+
+</html>

@@ -1,0 +1,16 @@
+<% include ../partials/header %>
+
+    <div class="row form-style"><h3> Add Comment to <%= site.name %></h3>
+        <br>
+        <form action="/sites/<%= site._id %>/comments" method="post">
+            <div class="form-group">
+            <textarea class="form-control" cols="25" rows="5" name="comment[text]" placeholder="Text"></textarea>
+            </div>
+            <div class="form-group">
+            <button class="btn btn-lg btn-primary btn-block">Submit</button>
+            </div>
+        </form>
+       
+    </div>
+
+<% include ../partials/footer %>

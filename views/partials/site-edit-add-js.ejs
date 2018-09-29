@@ -1,0 +1,102 @@
+    <script src="/assets/js/maps.js"></script> 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/blueimp-file-upload/9.21.0/js/vendor/jquery.ui.widget.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/blueimp-file-upload/9.21.0/js/jquery.iframe-transport.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/blueimp-file-upload/9.21.0/js/jquery.fileupload.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cloudinary-jquery-file-upload/2.5.0/cloudinary-jquery-file-upload.min.js"></script>
+    <script src="//widget.cloudinary.com/global/all.js" type="text/javascript"></script>
+    <script src="/assets/js/stacktable.js"></script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=<%=process.env.GMAPSAPIKEY%>&callback=<%=mapCallback%>&libraries=places"></script>
+    
+    <script>
+    function initNext(){
+  
+    $('#image-table').stacktable();
+   
+    var imageUploadEvnt= function(event){
+    cloudinary.openUploadWidget({ cloud_name: '<%=process.env.CLOUDINARYCLOUDNAME%>', upload_preset: 'public_is', max_files:'<%=maxAdditionalImages+1%>',theme:'white', thumbnail_transformation:{ width: 200, height: 200, crop: 'lpad' }}, 
+      function(err, result) { 
+          
+            if (err) {
+                console.log(err)
+            }
+            else
+            { 
+            var x=parseInt(event.target.getAttribute('bn')); // starting position, images are added forwards
+            
+                if (result.length>1){
+                  
+                    for(var i=0;i<result.length;i++)
+                        { 
+                    
+                        $('.upload-button').each(function (index,element){
+                              console.log($(this).attr('id')+' = '+'bn'+parseInt(i+x))
+                              
+                              if ( $( this ).attr('id')=== 'bn'+parseInt(i+x) )  {
+                                $(element).css('background', 'url(' + result[i].thumbnail_url.replace('http:', 'https:') + ')');
+                                // return false;
+                            }
+                        });
+                        
+                        $('#image'+parseInt(i+x)).val(result[i].secure_url);
+                        $('#imageThumbnail'+parseInt(i+x)).val(result[i].thumbnail_url.replace('http:', 'https:'));
+                        }
+                }
+                else
+                {
+                     $('.upload-button').each(function (index){
+                            if (event.target.getAttribute('id')== this.getAttribute('id'))
+                            {
+                                this.style.background='url(' + result[0].thumbnail_url.replace('http:', 'https:') + ')';
+                            }
+                        });
+                    $('#image'+x).val(result[0].secure_url);
+                    $('#imageThumbnail'+x).val(result[0].thumbnail_url.replace('http:', 'https:'));
+                }
+            }
+                
+      });
+  
+  }
+  
+  $(".bn").on("click", imageUploadEvnt);
+  // got rid of that buggy star-rating and replace with own
+  $('.star-me').on('click',function(){
+    var rate=$(this).attr('sn');
+    $('#rating').val(Number(rate)+1);
+    var idme=$(this).attr('mid');
+    $('.mid-'+idme).each(function(index,element){
+        if ($(element).attr('sn')<=rate){
+        $(element).addClass('star-me-on')
+        }
+        else{
+        $(element).removeClass('star-me-on')
+        } 
+    });            
+  });
+  // these next two are not used on mobile devices
+   $('.star-me').on('mouseenter',function(){
+    var rate=$(this).attr('sn');
+    var idme=$(this).attr('mid');
+    $('.mid-'+idme).each(function(index,element){
+        if ($(element).attr('sn')<=rate){
+        $(element).addClass('star-me-on')
+        }
+        else{
+        $(element).removeClass('star-me-on')
+        } 
+    });            
+  });
+  $('.forTheStars').on('mouseleave', function(){
+      $(this).children().each(function(index,element){
+        //  console.log(index)
+          if ($(element).attr('sn')+1<=$('#rating').val()){$(element).addClass('star-me-on')}else{$(element).removeClass('star-me-on')}
+      })
+      
+  })
+  
+
+}
+</script>
+
+
+   

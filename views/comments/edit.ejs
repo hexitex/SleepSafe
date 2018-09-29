@@ -1,0 +1,16 @@
+<% include ../partials/header %>
+
+    <div class="row form-style"><h3> Edit Comment</h3>
+        <br>
+        <form action="/sites/<%= siteid %>/comments/<%=comment._id%>?_method=PUT" method="post">
+            <div class="form-group">
+            <textarea class="form-control" cols="25" rows="5" name="comment[text]" placeholder="Text"><%=comment.text%></textarea>
+            </div>
+            <div class="form-group">
+            <button class="btn btn-lg btn-primary btn-block">Submit</button>
+            </div>
+        </form>
+       
+    </div>
+
+<% include ../partials/footer %>
