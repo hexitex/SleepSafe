@@ -2,7 +2,7 @@
 A site written in Nodejs with express,bootstrap 4 and mongodb to help homeless people find and share safer places to sleep. 
 The example site is hosted on http://www.sleepsafe.space. Calling for contributions from the community for localisation, enhancements and advancements. 
 
-The package.json file contains most of the dependances, on top of that you will need to have a running instance of mongo DB, redis for session management and nginx/another for your reverse proxy. By default the first user created on the site becomes the administrator so always create the first user offline. Multiple node servers can be automatically provisioned using... 
+The package.json file contains most of the dependances, on top of that you will need to have a running instance of mongo DB, redis for session management and nginx/another for your reverse proxy. By default the first user created on the site becomes the administrator so always create the first user offline. Multiple node servers can be automatically provisioned using cluster, this is currently based on the number of CPUs but you can mod the app.js file to limit this to fewer. 
 
 Features:
 
@@ -16,4 +16,4 @@ Uses cloundary for image CDN so minimal and fast traffic, compresses and resizes
 
 Creates thumbnail images of sites added for links, converts them to base64 and stores them in the mongodb for rapid display
 
-A SMS alerting service would be a nice feature so that homeless people can be alerted to new spaces and facilicities being offered in their are such as street vets, doctors, etc.  
+A SMS alerting service would be a nice feature so that homeless people can be alerted to new spaces and facilicities being offered in their area such as street vets, doctors, soup kitchens, etc.  
