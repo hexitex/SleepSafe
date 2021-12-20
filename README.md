@@ -1,6 +1,6 @@
 # SleepSafe
 A site written in Nodejs with express,bootstrap 4 and mongodb to help homeless people find and share safer places to sleep. 
-The example site is hosted on http://www.sleepsafe.space. Calling for contributions from the community for localisation, enhancements and advancements. 
+Calling for contributions from the community for localisation, enhancements and advancements. 
 
 The package.json file contains most of the dependances, on top of that you will need to have a running instance of mongo DB, redis for session management and nginx/another for your reverse proxy. By default the first user created on the site becomes the administrator so always create the first user offline. Multiple node servers can be automatically provisioned using cluster, this is currently based on the number of CPUs but you can mod the app.js file to limit this to fewer. 
 
