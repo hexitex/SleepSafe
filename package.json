@@ -24,7 +24,7 @@
     "is-image": "^2.0.0",
     "method-override": "^2.3.10",
     "moment": "^2.22.1",
-    "mongoose": "^5.1.1",
+    "mongoose": ">=6.4.6",
     "node-webshot": "^1.0.3",
     "nodemailer": ">=6.4.16",
     "passport": "^0.4.0",
